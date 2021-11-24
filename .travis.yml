@@ -6,15 +6,15 @@ before_install:
  - docker build -t react-test -f ./client/Dockerfile.dev ./client
  
 script:
- - docker run react-test npm test -- --coverage
+ - docker run -e CI=true USERNAME/react-test npm test
  
 after_success:
- - travis_wait 30 docker build -t tiantongxu/multi-client ./client
- - travis_wait 30 docker build -t tiantongxu/mlti-nginx ./nginx
- - travis_wait 30 docker build -t tiantongxu/multi-server ./server
- - travis_wait 30 docker build -t tiantongxu/multi-worker ./worker
- - travis_wait 30 echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
- - travis_wait 30 docker push tiantongxu/multi-client
- - travis_wait 30 docker push tiantongxu/multi-nginx
- - travis_wait 30 docker push tiantongxu/multi-server
- - travis_wait 30 docker push tiantongxu/multi-worker
+ - docker build -t tiantongxu/multi-client ./client
+ - docker build -t tiantongxu/mlti-nginx ./nginx
+ - docker build -t tiantongxu/multi-server ./server
+ - docker build -t tiantongxu/multi-worker ./worker
+ - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+ - docker push tiantongxu/multi-client
+ - docker push tiantongxu/multi-nginx
+ - docker push tiantongxu/multi-server
+ - docker push tiantongxu/multi-worker
