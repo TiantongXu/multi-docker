@@ -9,10 +9,10 @@ script:
  - docker run react-test npm test -- --coverage
  
 after_success:
- - docker build -t tiantongxu/multi-client ./client
- - docker build -t tiantongxu/mlti-nginx ./nginx
- - docker build -t tiantongxu/multi-server ./server
- - docker build -t tiantongxu/multi-worker ./worker
+ - travis_wait docker build -t tiantongxu/multi-client ./client
+ - travis_wait docker build -t tiantongxu/mlti-nginx ./nginx
+ - travis_wait docker build -t tiantongxu/multi-server ./server
+ - travis_wait docker build -t tiantongxu/multi-worker ./worker
  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
  - docker push tiantongxu/multi-client
  - docker push tiantongxu/multi-nginx
